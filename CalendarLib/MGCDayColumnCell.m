@@ -53,10 +53,14 @@ static const CGFloat dotSize = 4;
         _separatorColor = [UIColor lightGrayColor];
 		_headerHeight = 50;
 		
+		_dayBackground = [[UIView alloc] initWithFrame:CGRectNull];
+		
 		_dayLabel = [[UILabel alloc] initWithFrame:CGRectNull];
 		_dayLabel.numberOfLines = 0;
 		_dayLabel.adjustsFontSizeToFitWidth = YES;
 		_dayLabel.minimumScaleFactor = .7;
+		
+		[self.contentView addSubview:_dayBackground];
 		[self.contentView addSubview:_dayLabel];
 		
 		_dotLayer = [CAShapeLayer layer];
@@ -112,6 +116,7 @@ static const CGFloat dotSize = 4;
 		CGSize headerSize = CGSizeMake(self.contentView.bounds.size.width, self.headerHeight);
 		CGSize labelSize = CGSizeMake(headerSize.width - 2*kSpace, headerSize.height - (2 * dotSize + 2 * kSpace));
 		self.dayLabel.frame = (CGRect) { 2, 0, labelSize };
+		self.dayBackground.frame =(CGRect) { 0, 0, headerSize };
 		
 		self.dotLayer.position = CGPointMake(self.contentView.center.x, headerSize.height - 1.2 * dotSize);
 		self.dotLayer.fillColor = self.dotColor.CGColor;
@@ -138,11 +143,16 @@ static const CGFloat dotSize = 4;
     else if (self.accessoryTypes & MGCDayColumnCellAccessorySeparator) {
         borderFrame = CGRectMake(0, 0, 2./[UIScreen mainScreen].scale, self.contentView.bounds.size.height);
     }
-    
+	
     self.leftBorder.frame = borderFrame;
     self.leftBorder.borderColor = self.separatorColor.CGColor;
     self.leftBorder.borderWidth = borderFrame.size.width / 2.;
 
+	if (self.headerBackgroundColor)
+	{
+		self.dayBackground.backgroundColor = self.headerBackgroundColor;
+	}
+	
 	[CATransaction commit];
 }
 

@@ -402,6 +402,33 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 		[self.dayColumnsView reloadData];
 	}
 }
+// public
+- (void)setWeekdayFontColor:(UIColor *)weekdayFontColor
+{
+	_weekdayFontColor = weekdayFontColor;
+	[self.dayColumnsView reloadData];
+}
+
+// public
+- (void)setDayHeaderBackgroundColor:(UIColor *)dayHeaderBackgroundColor
+{
+	_dayHeaderBackgroundColor = dayHeaderBackgroundColor;
+	[self.dayColumnsView reloadData];
+}
+
+// public
+- (void)setWeekendFontColor:(UIColor *)weekendFontColor
+{
+	_weekendFontColor = weekendFontColor;
+	[self.dayColumnsView reloadData];
+}
+
+// public
+- (void)setTimeRowBackgroundColor:(UIColor *)timeRowBackgroundColor
+{
+	_timeRowBackgroundColor = timeRowBackgroundColor;
+	[self.dayColumnsView reloadData];
+}
 
 // public
 - (void)setDaySeparatorsColor:(UIColor *)daySeparatorsColor
@@ -1617,7 +1644,12 @@ static const CGFloat kMaxHourSlotHeight = 150.;
     self.timeRowsView.hourSlotHeight = self.hourSlotHeight;
     self.timeRowsView.timeColumnWidth = self.timeColumnWidth;
     self.timeRowsView.insetsHeight = self.eventsViewInnerMargin;
-    
+	
+	if (self.timeRowBackgroundColor)
+	{
+		self.timeRowsView.backgroundColor = self.timeRowBackgroundColor;
+	}
+	
     self.timedEventsViewLayout.dayColumnSize = dayColumnSize;
     self.allDayEventsViewLayout.dayColumnWidth = dayColumnSize.width;
     self.allDayEventsViewLayout.eventCellHeight = self.allDayEventCellHeight;
@@ -1736,10 +1768,13 @@ static const CGFloat kMaxHourSlotHeight = 150.;
         
         NSMutableParagraphStyle *para = [NSMutableParagraphStyle new];
         para.alignment = NSTextAlignmentCenter;
-        
+		
+		UIColor* weekendColor = self.weekendFontColor ? self.weekendFontColor : [UIColor lightGrayColor];
+		UIColor* weekdayColor = self.weekdayFontColor ? self.weekdayFontColor : [UIColor blackColor];
+		
         UIFont *font = [UIFont systemFontOfSize:14];
-        UIColor *color = [self.calendar isDateInWeekend:date] ? [UIColor lightGrayColor] : [UIColor blackColor];
-        
+		UIColor *color = [self.calendar isDateInWeekend:date] ? weekendColor : weekdayColor;
+		
         if ([self.calendar mgc_isDate:date sameDayAsDate:[NSDate date]]) {
             accessoryTypes |= MGCDayColumnCellAccessoryMark;
             dayCell.markColor = self.tintColor;
@@ -1761,6 +1796,15 @@ static const CGFloat kMaxHourSlotHeight = 150.;
     }
     
     dayCell.accessoryTypes = accessoryTypes;
+	
+	if (self.dayHeaderBackgroundColor)
+	{
+		dayCell.headerBackgroundColor = self.dayHeaderBackgroundColor;
+		// hides the top left border
+		dayCell.accessoryTypes = MGCDayColumnCellAccessoryBorder;
+		self.backgroundColor = self.dayHeaderBackgroundColor;
+	}
+	
     return dayCell;
 }
 

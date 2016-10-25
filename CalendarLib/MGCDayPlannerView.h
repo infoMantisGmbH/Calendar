@@ -118,6 +118,26 @@ typedef NS_ENUM(NSUInteger, MGCDayPlannerTimeMark) {
 @property (nonatomic) CGFloat dayHeaderHeight;
 
 /*!
+	@abstract	Returns the color of the day header background
+	@discussion The default value is clearColor.
+ */
+@property (nonatomic) UIColor *dayHeaderBackgroundColor;
+/*!
+	@abstract	Returns the color of the weekday label
+	@discussion The default value is light gray. Only works if this class doesn't response to selector attributedStringForDayHeaderAtDate.
+ */
+@property (nonatomic) UIColor *weekdayFontColor;
+/*!
+	@abstract	Returns the color of the weekend label
+	@discussion The default value is black. Only works if this class doesn't response to selector attributedStringForDayHeaderAtDate.
+ */
+@property (nonatomic) UIColor *weekendFontColor;
+/*!
+	@abstract	Returns the color of the time row
+	@discussion The default value is clearColor.
+ */
+@property (nonatomic) UIColor *timeRowBackgroundColor;
+/*!
 	@abstract	Returns the color of the vertical separator lines between days.
 	@discussion The default value is light gray.
  */
