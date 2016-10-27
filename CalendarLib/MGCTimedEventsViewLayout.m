@@ -184,7 +184,10 @@
 	//NSLog(@"layoutAttributesForItemAtIndexPath %@", indexPath);
 	
 	NSArray *attribs = [self layoutAttributesForSection:indexPath.section];
-	return [attribs objectAtIndex:indexPath.item];
+	
+	return (attribs && [attribs count] > 0 && [attribs count] > indexPath.item)
+				? [attribs objectAtIndex:indexPath.item]
+				: [[MGCEventCellLayoutAttributes alloc] init];
 }
 
 - (MGCEventCellLayoutAttributes*)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath*)indexPath
