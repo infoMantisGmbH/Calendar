@@ -667,7 +667,8 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 	NSAssert(date, @"scrollToDate:date: was passed nil date");
 	
 	if (self.dateRange && ![self.dateRange containsDate:date]) {
-		[NSException raise:@"Invalid parameter" format:@"date %@ is not in range %@ for this day planner view", date, self.dateRange];
+		NSLog(@"Invalid parameter: date %@ is not in range %@ for this day planner view", date, self.dateRange);
+		return;
 	}
 	
 	// if scrolling is already happening, let it end properly
