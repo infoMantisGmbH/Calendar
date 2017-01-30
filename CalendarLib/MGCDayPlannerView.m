@@ -664,6 +664,12 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 // public
 -(void)scrollToDate:(NSDate*)date options:(MGCDayPlannerScrollType)options animated:(BOOL)animated
 {
+    [self scrollToDate:date options:options animated:animated position:MGCScrollingPositionTop];
+}
+
+// public
+-(void)scrollToDate:(NSDate*)date options:(MGCDayPlannerScrollType)options animated:(BOOL)animated position:(MGCScrollingPositionType)position
+{
 	NSAssert(date, @"scrollToDate:date: was passed nil date");
 	
 	if (self.dateRange && ![self.dateRange containsDate:date]) {
@@ -682,9 +688,15 @@ static const CGFloat kMaxHourSlotHeight = 150.;
 	
 	NSDate *dayStart = [self.calendar mgc_startOfDayForDate:firstVisible];
 	NSTimeInterval ti = [date timeIntervalSinceDate:dayStart];
-	
+    
     CGFloat y = [self offsetFromTime:ti rounding:0];
-	y = fmaxf(fminf(y, self.timedEventsView.contentSize.height - self.timedEventsView.bounds.size.height), 0);
+    
+    if(position == MGCScrollingPositionTop){
+        y = fmaxf(fminf(y, self.timedEventsView.contentSize.height - self.timedEventsView.bounds.size.height), 0);
+    } else if(position == MGCScrollingPositionCenter){
+        y -= 0.5f * self.timedEventsView.bounds.size.height;
+    }
+    
 	CGFloat x = [self xOffsetFromDayOffset:[self dayOffsetFromDate:dayStart]];
 
 	CGPoint offset = self.timedEventsView.contentOffset;

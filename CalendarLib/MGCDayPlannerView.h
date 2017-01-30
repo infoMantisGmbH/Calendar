@@ -57,6 +57,13 @@ typedef NS_ENUM(NSUInteger, MGCDayPlannerTimeMark) {
 };
 
 
+typedef NS_ENUM(NSUInteger, MGCScrollingPositionType) {
+    MGCScrollingPositionTop = 0,
+    MGCScrollingPositionCenter = 1
+};
+
+
+
 /*!
  * You can use an instance of MGCDayPlannerView to display events as a schedule.
  *
@@ -268,6 +275,18 @@ typedef NS_ENUM(NSUInteger, MGCDayPlannerTimeMark) {
 	@warning	If the view is already curently scrolling, this will have no effect.
  */
 - (void)scrollToDate:(NSDate*)date options:(MGCDayPlannerScrollType)options animated:(BOOL)animated;
+
+/*!
+	@abstract	Scrolls the view until a certain date is visible.
+	@param		date		The date to scroll into view. It will be the first visible date on the left of the view.
+	@param		options		Specify if scrolling through dates only (MGCDayPlannerScrollDate),
+ time only (MGCDayPlannerScrollTime), or both (MGCDayPlannerScrollDateTime).
+	@param		animated	Specify YES to animate the scrolling behavior or NO to adjust the visible content immediately.
+    @param		position	Specify the position of the item of interes after scrolling (MGCScrollingPositionType),
+	@warning	If `date` param is not in the scrollable range of dates, an exception is thrown.
+	@warning	If the view is already curently scrolling, this will have no effect.
+ */
+- (void)scrollToDate:(NSDate*)date options:(MGCDayPlannerScrollType)options animated:(BOOL)animated position:(MGCScrollingPositionType)position;
 
 /*!
 	@abstract	Scrolls the view to the next "logical" date.
